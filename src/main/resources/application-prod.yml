@@ -1,16 +1,6 @@
 spring:
-  flyway:
-    enabled: false
-  datasource:
-    url:
-    username:
-    password:
-  jpa:
-    properties:
-      generate_statistics: true
-      jdbc:
-        batch_size: 100
-        order_inserts: true
-    hibernate:
-      dialect: org.hibernate.dialect.MySQL5Dialect
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/twitter_challenge_prod}
+      database: ${MONGODB_DATABASE:twitter_challenge_prod}
 
