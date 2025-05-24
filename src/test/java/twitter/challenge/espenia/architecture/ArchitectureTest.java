@@ -13,9 +13,9 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import jakarta.inject.Inject;
-import jakarta.persistence.Entity;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -81,34 +81,34 @@ class ArchitectureTest {
   private static final ArchRule REPOSITORIES_SHOULD_ONLY_BE_ACCESSED_BY =
       classes()
           .that()
-          .resideInAPackage("..infra.jpa.repository..")
+          .resideInAPackage("..infra.mongodb.repository..")
           .should()
           .onlyBeAccessed()
           .byClassesThat()
           .resideInAPackage("..infra.gateway..");
 
   @ArchTest
-  private static final ArchRule ENTITIES_MUST_BE_NAMED_ENDING_WITH_ENTITY =
+  private static final ArchRule DOCUMENTS_MUST_BE_NAMED_ENDING_WITH_DOCUMENT =
       classes()
           .that()
-          .resideInAPackage("twitter.challenge.espenia.infra.jpa.entity..")
+          .resideInAPackage("twitter.challenge.espenia.infra.mongodb.document..")
           .should()
-          .haveSimpleNameEndingWith("Entity")
+          .haveSimpleNameEndingWith("Document")
           .orShould()
-          .haveSimpleNameEndingWith("EntityBuilder")
+          .haveSimpleNameEndingWith("DocumentBuilder")
           .orShould()
-          .haveSimpleNameEndingWith("EntityBuilderImpl");
+          .haveSimpleNameEndingWith("DocumentBuilderImpl");
 
   @ArchTest
-  private static final ArchRule ENTITIES_MUST_RESIDE_IN_JPA_ENTITY_PACKAGE =
+  private static final ArchRule DOCUMENTS_MUST_RESIDE_IN_MONGODB_DOCUMENT_PACKAGE =
       classes()
           .that()
-          .areAnnotatedWith(Entity.class)
+          .areAnnotatedWith(Document.class)
           .should()
-          .resideInAPackage("..infra.jpa.entity..")
+          .resideInAPackage("..infra.mongodb.document..")
           .as(
               "Entities should reside in a package"
-                  + " 'twitter.challenge.espenia.infra.jpa.entity'");
+                  + " 'twitter.challenge.espenia.infra.mongodb.document'");
 
   @ArchTest
   private static final ArchRule REST_CONTROLLERS_MUST_RESIDE_IN_ENTRYPOINT_PACKAGE =
