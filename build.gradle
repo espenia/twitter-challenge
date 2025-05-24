@@ -36,6 +36,7 @@ dependencies {
 	// External application dependencies
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-blackbird")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
@@ -49,6 +50,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-jetty")	
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$starterWebmvcUiVersion")
+	implementation("org.springframework.security:spring-security-core")
 	implementation("org.mapstruct:mapstruct:${mapstructVersion}")
 	implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.20.0")
 	implementation("de.flapdoodle.embed:de.flapdoodle.embed.process:4.14.0")
