@@ -2,6 +2,7 @@ package twitter.challenge.espenia.entrypoint.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingRequestValueException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import twitter.challenge.espenia.core.exception.BaseAPIException;
 import twitter.challenge.espenia.entrypoint.exception.response.dto.ApiError;
 import com.newrelic.api.agent.NewRelic;
@@ -78,7 +79,6 @@ public class ControllerExceptionHandler {
                 : NO_CAUSE_FOUND);
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
-
   @ExceptionHandler(MissingRequestValueException.class)
   public ResponseEntity<ApiError> handleMissingRequestValueException(
       final MissingRequestValueException ex) {
@@ -100,6 +100,41 @@ public class ControllerExceptionHandler {
         apiError.getStatus());
 
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
+  }
+  
+  /**
+   * Handler for validation errors.
+   *
+   * @param ex the exception thrown when validation fails.
+   * @return {@link ResponseEntity} with 422 status code and the validation error message.
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ApiError> handleValidationException(final MethodArgumentNotValidException ex) {
+    String fieldName = "";
+    String errorMessage = "";
+    
+    if (ex.getBindingResult().getFieldError() != null) {
+      fieldName = ex.getBindingResult().getFieldError().getField();
+      errorMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
+    }
+    
+    final Set<UnproccesableEntityApiError.Validation> validation = new HashSet<>();
+    validation.add(new UnproccesableEntityApiError.Validation(fieldName, errorMessage));
+    
+    UnproccesableEntityApiError apiError = new UnproccesableEntityApiError("validation_error", validation);
+    
+    log.info(
+        LOG_FLAGS,
+        apiError.getMessage(),
+        apiError.getError(),
+        apiError.getStatus());
+
+    ApiError simpleError = new ApiError(
+        "validation_error",
+        errorMessage,
+        HttpStatus.UNPROCESSABLE_ENTITY.value());
+        
+    return ResponseEntity.status(apiError.getStatus()).body(simpleError);
   }
 
   /**

@@ -1,9 +1,7 @@
 package twitter.challenge.espenia.infra.mongodb.document;
 
+import jakarta.validation.constraints.Min;
 import lombok.*;
-
-import java.util.Date;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,31 +10,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.experimental.SuperBuilder;
 
+import java.util.Date;
+
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)
-@Document(collection = "users")
+@Document(collection = "tweets")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDocument extends BaseDocument {
+public class TweetDocument extends BaseDocument {
 
     @Id
     private String id;
     
-    @Indexed(unique = true)
-    private String username;
-
-    private String displayName;
+    @Indexed
+    private String userId;
     
-    @Indexed(unique = true)
-    private String email;
-
-    private String passwordHash;
-
-    private String bio;
-
+    private String content;
+    
+    @Indexed
     @CreatedDate
     private Date createdAt;
+
+    @Min(0)
+    private long likeCount;
 
 }
