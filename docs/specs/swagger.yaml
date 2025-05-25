@@ -223,6 +223,32 @@
         }
       }
     },
+    "/api/timeline/{userId}" : {
+      "get" : {
+        "tags" : [ "timeline-controller" ],
+        "operationId" : "getTimeline",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TimelineCacheResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/follows/following/{userId}" : {
       "get" : {
         "tags" : [ "follow-controller" ],
@@ -439,6 +465,33 @@
             "maxLength" : 500,
             "minLength" : 0,
             "type" : "string"
+          }
+        }
+      },
+      "TimelineCacheResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "user_id" : {
+            "type" : "string"
+          },
+          "tweet_ids" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "last_updated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "tweets" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TweetResponse"
+            }
           }
         }
       }

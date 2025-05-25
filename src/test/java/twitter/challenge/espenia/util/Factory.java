@@ -5,20 +5,25 @@ import twitter.challenge.espenia.core.domain.User;
 import twitter.challenge.espenia.core.result.UserResponse;
 import twitter.challenge.espenia.core.usecase.request.UserRequest;
 import twitter.challenge.espenia.core.usecase.request.UserUpdateRequest;
+import twitter.challenge.espenia.infra.mongodb.document.FollowDocument;
 import twitter.challenge.espenia.infra.mongodb.document.UserDocument;
 import twitter.challenge.espenia.infra.mongodb.document.TweetDocument;
 import twitter.challenge.espenia.core.domain.Tweet;
 import twitter.challenge.espenia.core.usecase.request.TweetRequest;
 import twitter.challenge.espenia.core.result.TweetResponse;
+import twitter.challenge.espenia.core.domain.TimelineCache;
+import twitter.challenge.espenia.infra.mongodb.document.TimelineCacheDocument;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
 
 public final class Factory {
 
   public static final String USERNAME = "espenia";
   public static final String USERID = "12345";
   public static final String EMAIL = "tatas323@gmail.com";
+  public static final String EMAIL_2 = "tatas3233@gmail.com";
   public static final String TWEET_ID = "67890";
   public static final String TWEET_CONTENT = "This is a test tweet";
 
@@ -127,6 +132,77 @@ public final class Factory {
             .content(TWEET_CONTENT)
             .createdAt(new Date())
             .likeCount(0L)
+            .build();
+  }
+  
+  public static final String TIMELINE_ID = "timeline123";
+  
+  public static TimelineCache sampleTimelineCache() {
+    return TimelineCache.builder()
+            .id(TIMELINE_ID)
+            .userId(USERID)
+            .tweetIds(java.util.Arrays.asList(TWEET_ID, "tweet2", "tweet3"))
+            .lastUpdated(new Date())
+            .build();
+  }
+  
+  public static TimelineCacheDocument sampleTimelineCacheDocument() {
+    return TimelineCacheDocument.builder()
+            .id(TIMELINE_ID)
+            .userId(USERID)
+            .tweetIds(java.util.Arrays.asList(TWEET_ID, "tweet2", "tweet3"))
+            .lastUpdated(new Date())
+            .build();
+  }
+
+  public static TimelineCache freshTimeLineCache(final String userId, final List<String> tweetIds) {
+    return TimelineCache.builder()
+            .id(Factory.TIMELINE_ID)
+            .userId(userId)
+            .tweetIds(tweetIds)
+            .lastUpdated(new Date()) // Fresh cache (just created)
+            .build();
+  }
+
+  public static UserDocument sampleUserDocument2() {
+    return UserDocument.builder()
+            .id(USERID+2)
+            .username(USERNAME+2)
+            .email(EMAIL_2)
+            .displayName("Esteban"+2)
+            .bio("This is my bio"+2)
+            .passwordHash("hashedpassword"+2)
+            .createdAt(new Date())
+            .updatedAt(new Date())
+            .build();
+  }
+
+  public static TweetDocument sampleTweetDocument2() {
+    return TweetDocument.builder()
+            .id(TWEET_ID+2)
+            .userId(USERID+2)
+            .content(TWEET_CONTENT+2)
+            .createdAt(new Date())
+            .likeCount(10)
+            .build();
+  }
+
+  public static TweetDocument sampleTweetDocument3() {
+    return TweetDocument.builder()
+            .id(TWEET_ID+3)
+            .userId(USERID+3)
+            .content(TWEET_CONTENT+3)
+            .createdAt(new Date())
+            .likeCount(20)
+            .build();
+  }
+
+  public static FollowDocument sampleFollowDocument() {
+    return FollowDocument.builder()
+            .id("followId")
+            .followerId(USERID)
+            .followedId(USERID+2)
+            .createdAt(new Date())
             .build();
   }
 }
