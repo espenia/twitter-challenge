@@ -7,6 +7,7 @@ services:
             dockerfile: Dockerfile  # Use the existing Dockerfile
         ports:
             - "8090:8090"  # Map container port 8090 to host port 8090
+
         environment:
             - SCOPE_SUFFIX=prod  # Set the active profile to local
             - MONGODB_URI=mongodb://mongodb
@@ -20,7 +21,7 @@ services:
         volumes:
             - ./data:/app/data  # Mount the data directory for persistence if needed
         depends_on:
-            - mongodb  # Make sure MongoDB starts before the application
+            - mongo-init
 
     mongodb:
         image: mongo:latest
