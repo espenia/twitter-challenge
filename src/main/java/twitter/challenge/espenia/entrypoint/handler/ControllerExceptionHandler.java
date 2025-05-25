@@ -1,6 +1,7 @@
 package twitter.challenge.espenia.entrypoint.handler;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingRequestValueException;
 import twitter.challenge.espenia.core.exception.BaseAPIException;
 import twitter.challenge.espenia.entrypoint.exception.response.dto.ApiError;
 import com.newrelic.api.agent.NewRelic;
@@ -10,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import twitter.challenge.espenia.entrypoint.exception.response.dto.UnproccesableEntityApiError;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /** Basic handling for exceptions. */
 @ControllerAdvice
@@ -71,6 +76,29 @@ public class ControllerExceptionHandler {
             e.getCause() != null && StringUtils.isNotBlank(e.getCause().getMessage())
                 ? e.getCause().getMessage()
                 : NO_CAUSE_FOUND);
+    return ResponseEntity.status(apiError.getStatus()).body(apiError);
+  }
+
+  @ExceptionHandler(MissingRequestValueException.class)
+  public ResponseEntity<ApiError> handleMissingRequestValueException(
+      final MissingRequestValueException ex) {
+    final Set<UnproccesableEntityApiError.Validation> validation = new HashSet<>();
+    if (ex.getDetailMessageArguments() != null) {
+        for (Object argument : ex.getDetailMessageArguments()) {
+            if (argument instanceof String) {
+              validation.add(new UnproccesableEntityApiError.Validation(argument.toString(), ex.getDetailMessageCode()));
+            }
+        }
+    }
+    UnproccesableEntityApiError apiError =
+            new UnproccesableEntityApiError(
+                    "missing value", validation);
+    log.info(
+        LOG_FLAGS,
+        apiError.getMessage(),
+        apiError.getError(),
+        apiError.getStatus());
+
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
 
