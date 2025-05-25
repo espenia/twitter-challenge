@@ -2,7 +2,9 @@ package twitter.challenge.espenia.core.usecase.request;
 
 
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
+@Builder
 public record UserUpdateRequest(
         @Size(max = 100, message = "Display name cannot exceed 100 characters")
         String displayName,

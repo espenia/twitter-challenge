@@ -66,7 +66,7 @@ public class UserController {
      * @param updateRequest The update data
      * @return The updated user
      */
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(
             @PathVariable final String id,
             @Valid @RequestBody final UserUpdateRequest updateRequest) {

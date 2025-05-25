@@ -50,13 +50,13 @@ public class UserService {
     public UserResponse updateUser(final String id, final UserUpdateRequest updateRequest) {
         final User user = userGateway.findById(id);
 
-        if (StringUtils.isAllBlank(updateRequest.displayName())) {
+        if (StringUtils.isNotBlank(updateRequest.displayName())) {
             user.setDisplayName(updateRequest.displayName());
         }
-        if (StringUtils.isAllBlank(updateRequest.bio())) {
-            user.setEmail(updateRequest.bio());
+        if (StringUtils.isNotBlank(updateRequest.bio())) {
+            user.setBio(updateRequest.bio());
         }
-        if (StringUtils.isAllBlank(updateRequest.password())) {
+        if (StringUtils.isNotBlank(updateRequest.password())) {
             user.setPasswordHash(passwordEncoder.encode(updateRequest.password()));
         }
         
