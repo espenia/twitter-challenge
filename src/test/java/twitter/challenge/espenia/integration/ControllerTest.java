@@ -12,20 +12,16 @@ import org.springframework.http.RequestEntity;
 public class ControllerTest extends IntegrationTest {
   @Autowired protected TestRestTemplate testRestTemplate;
 
+  protected final ObjectMapper objectMapper;
+
   @Autowired
   public ControllerTest(final ObjectMapper objectMapper) {
-      super(objectMapper);
+    this.objectMapper = objectMapper;
   }
 
   protected <T> RequestEntity<T> getDefaultRequestEntity() {
     HttpHeaders headers = new HttpHeaders();
     return new RequestEntity<>(headers, HttpMethod.GET, null);
-  }
-
-  protected HttpHeaders getDefaultHeaders() {
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Content-Type", "application/json");
-    return headers;
   }
 
   protected <T> T readFile(String filePath, Class<T> classType) throws IOException {

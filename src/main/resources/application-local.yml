@@ -1,10 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost
-      database: challenge-twitter
-      username: user
-      password: user
-      port: 27017
+      uri: mongodb://localhost:27017
+      database: twitter_challenge_local
 server:
   port: 8090
