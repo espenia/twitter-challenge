@@ -83,3 +83,8 @@ jar {
 	}
 }
 
+bootJar {
+	archiveBaseName = 'twitter-challenge-espenia'
+	archiveVersion = '0.0.1-SNAPSHOT'
+}
+
