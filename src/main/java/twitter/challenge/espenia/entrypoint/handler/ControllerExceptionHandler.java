@@ -1,8 +1,8 @@
 package twitter.challenge.espenia.entrypoint.handler;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestValueException;
 import twitter.challenge.espenia.core.exception.BaseAPIException;
 import twitter.challenge.espenia.entrypoint.exception.response.dto.ApiError;
 import com.newrelic.api.agent.NewRelic;
@@ -79,6 +79,7 @@ public class ControllerExceptionHandler {
                 : NO_CAUSE_FOUND);
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
+
   @ExceptionHandler(MissingRequestValueException.class)
   public ResponseEntity<ApiError> handleMissingRequestValueException(
       final MissingRequestValueException ex) {
@@ -101,8 +102,28 @@ public class ControllerExceptionHandler {
 
     return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
-  
+
   /**
+   * Handler for internal exceptions.
+   *
+   * @param e the exception thrown during request processing.
+   * @return {@link ResponseEntity} with 500 status code and description indicating an internal
+   *     error.
+   */
+  @ExceptionHandler(Exception.class)
+  protected ResponseEntity<ApiError> handleUnknownException(final Exception e) {
+    log.error("Internal error", e);
+    NewRelic.noticeError(e);
+
+    ApiError apiError =
+        new ApiError(
+            "internal_error",
+            "Internal server error",
+            HttpStatus.INTERNAL_SERVER_ERROR.value());
+    return ResponseEntity.status(apiError.getStatus()).body(apiError);
+  }
+
+    /**
    * Handler for validation errors.
    *
    * @param ex the exception thrown when validation fails.
@@ -135,25 +156,5 @@ public class ControllerExceptionHandler {
         HttpStatus.UNPROCESSABLE_ENTITY.value());
         
     return ResponseEntity.status(apiError.getStatus()).body(simpleError);
-  }
-
-  /**
-   * Handler for internal exceptions.
-   *
-   * @param e the exception thrown during request processing.
-   * @return {@link ResponseEntity} with 500 status code and description indicating an internal
-   *     error.
-   */
-  @ExceptionHandler(Exception.class)
-  protected ResponseEntity<ApiError> handleUnknownException(final Exception e) {
-    log.error("Internal error", e);
-    NewRelic.noticeError(e);
-
-    ApiError apiError =
-        new ApiError(
-            "internal_error",
-            "Internal server error",
-            HttpStatus.INTERNAL_SERVER_ERROR.value());
-    return ResponseEntity.status(apiError.getStatus()).body(apiError);
   }
 }
