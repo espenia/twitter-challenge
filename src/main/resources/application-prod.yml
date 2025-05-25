@@ -1,16 +1,10 @@
 spring:
-  flyway:
-    enabled: false
-  datasource:
-    url:
-    username:
-    password:
-  jpa:
-    properties:
-      generate_statistics: true
-      jdbc:
-        batch_size: 100
-        order_inserts: true
-    hibernate:
-      dialect: org.hibernate.dialect.MySQL5Dialect
-
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost}
+      database: ${MONGODB_DATABASE:twitter_challenge_prod}
+      username: ${MONGODB_USERNAME:user}
+      password: ${MONGODB_PASSWORD:user}
+      port: ${MONGODB_PORT:27017}
+server:
+  port: ${SERVER_PORT:8090}
