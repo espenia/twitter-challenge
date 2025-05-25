@@ -66,6 +66,42 @@
         }
       }
     },
+    "/api/follows/{followerId}" : {
+      "post" : {
+        "tags" : [ "follow-controller" ],
+        "operationId" : "createFollow",
+        "parameters" : [ {
+          "name" : "followerId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FollowRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/FollowResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/{id}" : {
       "get" : {
         "tags" : [ "user-controller" ],
@@ -186,6 +222,116 @@
           }
         }
       }
+    },
+    "/api/timeline/{userId}" : {
+      "get" : {
+        "tags" : [ "timeline-controller" ],
+        "operationId" : "getTimeline",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TimelineCacheResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/follows/following/{userId}" : {
+      "get" : {
+        "tags" : [ "follow-controller" ],
+        "operationId" : "getFollowing",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/FollowResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/follows/followers/{userId}" : {
+      "get" : {
+        "tags" : [ "follow-controller" ],
+        "operationId" : "getFollowers",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/FollowResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/follows/{followerId}/{followedId}" : {
+      "delete" : {
+        "tags" : [ "follow-controller" ],
+        "operationId" : "deleteFollow",
+        "parameters" : [ {
+          "name" : "followerId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "followedId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -248,7 +394,7 @@
           },
           "content" : {
             "maxLength" : 280,
-            "minLength" : 1,
+            "minLength" : 0,
             "type" : "string"
           }
         }
@@ -275,6 +421,33 @@
           }
         }
       },
+      "FollowRequest" : {
+        "required" : [ "followed_id" ],
+        "type" : "object",
+        "properties" : {
+          "followed_id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "FollowResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "follower_id" : {
+            "type" : "string"
+          },
+          "followed_id" : {
+            "type" : "string"
+          },
+          "created_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
       "UserUpdateRequest" : {
         "type" : "object",
         "properties" : {
@@ -292,6 +465,33 @@
             "maxLength" : 500,
             "minLength" : 0,
             "type" : "string"
+          }
+        }
+      },
+      "TimelineCacheResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "user_id" : {
+            "type" : "string"
+          },
+          "tweet_ids" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "last_updated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "tweets" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TweetResponse"
+            }
           }
         }
       }
