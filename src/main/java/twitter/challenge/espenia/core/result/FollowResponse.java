@@ -5,7 +5,6 @@ import twitter.challenge.espenia.core.domain.Follow;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Builder
 public record FollowResponse(

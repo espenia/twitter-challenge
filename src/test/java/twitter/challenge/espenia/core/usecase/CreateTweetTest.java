@@ -13,7 +13,6 @@ import twitter.challenge.espenia.util.Factory;
 import twitter.challenge.espenia.util.UnitTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class CreateTweetTest extends UnitTest {

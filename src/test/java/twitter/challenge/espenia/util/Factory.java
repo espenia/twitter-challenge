@@ -14,7 +14,6 @@ import twitter.challenge.espenia.core.result.TweetResponse;
 import twitter.challenge.espenia.core.domain.TimelineCache;
 import twitter.challenge.espenia.infra.mongodb.document.TimelineCacheDocument;
 
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 

@@ -1,16 +1,13 @@
 package twitter.challenge.espenia.entrypoint;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import twitter.challenge.espenia.core.result.TimelineCacheResponse;
-import twitter.challenge.espenia.infra.mongodb.repository.TimelineCacheRepository;
 import twitter.challenge.espenia.infra.mongodb.repository.UserRepository;
 import twitter.challenge.espenia.util.Factory;
-import twitter.challenge.espenia.util.UnitTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

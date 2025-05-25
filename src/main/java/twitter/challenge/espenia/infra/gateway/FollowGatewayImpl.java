@@ -8,7 +8,6 @@ import twitter.challenge.espenia.infra.gateway.mapper.FollowMapper;
 import twitter.challenge.espenia.infra.mongodb.document.FollowDocument;
 import twitter.challenge.espenia.infra.mongodb.repository.FollowRepository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 

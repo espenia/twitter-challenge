@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import twitter.challenge.espenia.core.result.TweetResponse;
 import twitter.challenge.espenia.core.usecase.request.TweetRequest;
 import twitter.challenge.espenia.entrypoint.exception.response.dto.ApiError;
-import twitter.challenge.espenia.infra.mongodb.repository.TweetRepository;
 import twitter.challenge.espenia.infra.mongodb.repository.UserRepository;
 import twitter.challenge.espenia.util.Factory;
 

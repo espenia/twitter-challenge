@@ -9,7 +9,6 @@ import twitter.challenge.espenia.infra.gateway.mapper.TimelineCacheMapper;
 import twitter.challenge.espenia.infra.mongodb.document.TimelineCacheDocument;
 import twitter.challenge.espenia.infra.mongodb.repository.TimelineCacheRepository;
 
-import java.util.Date;
 import java.util.List;
 
 @Slf4j

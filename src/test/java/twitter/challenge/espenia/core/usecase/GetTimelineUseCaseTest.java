@@ -15,11 +15,11 @@ import twitter.challenge.espenia.util.Factory;
 import twitter.challenge.espenia.util.UnitTest;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 class GetTimelineUseCaseTest extends UnitTest {
@@ -78,12 +78,12 @@ class GetTimelineUseCaseTest extends UnitTest {
         String userId = Factory.USERID;
         String followedUserId = "followed123";
         
-        List<Tweet> userTweets = Arrays.asList(Factory.sampleTweet());
-        List<Tweet> followedTweets = Arrays.asList(
+        List<Tweet> userTweets = Collections.singletonList(Factory.sampleTweet());
+        List<Tweet> followedTweets = Collections.singletonList(
                 Tweet.builder().id("tweet2").userId(followedUserId).content("Content 2").createdAt(new Date()).likeCount(0).build()
         );
         
-        List<Follow> following = Arrays.asList(
+        List<Follow> following = Collections.singletonList(
                 Follow.builder().id("follow1").followerId(userId).followedId(followedUserId).createdAt(new Date()).build()
         );
         
@@ -92,7 +92,7 @@ class GetTimelineUseCaseTest extends UnitTest {
         when(timelineCacheGateway.existsByUserId(userId)).thenReturn(false);
         when(followGateway.getFollowing(userId)).thenReturn(following);
         when(tweetGateway.findByUserIdOrderByCreatedAtDesc(eq(userId), anyInt())).thenReturn(userTweets);
-        when(tweetGateway.findByUserIdsOrderByCreatedAtDesc(eq(Arrays.asList(followedUserId)), anyInt())).thenReturn(followedTweets);
+        when(tweetGateway.findByUserIdsOrderByCreatedAtDesc(eq(List.of(followedUserId)), anyInt())).thenReturn(followedTweets);
         
         // Execute
         TimelineCacheResponse response = getTimelineUseCase.execute(userId);

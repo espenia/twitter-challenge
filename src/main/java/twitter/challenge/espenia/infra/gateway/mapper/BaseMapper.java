@@ -1,9 +1,5 @@
 package twitter.challenge.espenia.infra.gateway.mapper;
 
-import org.mapstruct.BeanMapping;
-import org.mapstruct.InheritConfiguration;
-import org.mapstruct.MappingTarget;
-
 public interface BaseMapper<E,D> {
 
     D toDomain(E entity);

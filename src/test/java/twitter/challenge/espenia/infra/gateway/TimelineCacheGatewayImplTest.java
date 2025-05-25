@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import twitter.challenge.espenia.core.domain.TimelineCache;
-import twitter.challenge.espenia.infra.mongodb.document.TimelineCacheDocument;
 import twitter.challenge.espenia.infra.mongodb.repository.TimelineCacheRepository;
 import twitter.challenge.espenia.infra.mongodb.repository.UserRepository;
 import twitter.challenge.espenia.util.Factory;

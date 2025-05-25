@@ -10,7 +10,6 @@ import twitter.challenge.espenia.infra.mongodb.document.TweetDocument;
 import twitter.challenge.espenia.infra.mongodb.repository.TweetRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class TweetGatewayImpl extends BaseMongoGateway<TweetDocument, String, TweetRepository> implements TweetGateway {
