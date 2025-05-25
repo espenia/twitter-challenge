@@ -1,6 +1,10 @@
 spring:
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://localhost:27017/twitter_challenge_prod}
+      uri: ${MONGODB_URI:mongodb://localhost}
       database: ${MONGODB_DATABASE:twitter_challenge_prod}
-
+      username: ${MONGODB_USERNAME:user}
+      password: ${MONGODB_PASSWORD:user}
+      port: ${MONGODB_PORT:27017}
+server:
+  port: ${SERVER_PORT:8090}
