@@ -10,18 +10,20 @@
     "description" : "Scope local"
   } ],
   "paths" : {
-    "/api/users/{id}" : {
-      "get" : {
+    "/api/users" : {
+      "post" : {
         "tags" : [ "user-controller" ],
-        "operationId" : "getUser",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
+        "operationId" : "createUser",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserRequest"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -34,10 +36,40 @@
             }
           }
         }
-      },
-      "put" : {
+      }
+    },
+    "/api/tweets" : {
+      "post" : {
+        "tags" : [ "tweet-controller" ],
+        "operationId" : "createTweet",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TweetRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TweetResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}" : {
+      "get" : {
         "tags" : [ "user-controller" ],
-        "operationId" : "updateUser",
+        "operationId" : "getUser",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -46,16 +78,6 @@
             "type" : "string"
           }
         } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/UserUpdateRequest"
-              }
-            }
-          },
-          "required" : true
-        },
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -85,17 +107,23 @@
             "description" : "OK"
           }
         }
-      }
-    },
-    "/api/users" : {
-      "post" : {
+      },
+      "patch" : {
         "tags" : [ "user-controller" ],
-        "operationId" : "createUser",
+        "operationId" : "updateUser",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/UserRequest"
+                "$ref" : "#/components/schemas/UserUpdateRequest"
               }
             }
           },
@@ -162,12 +190,21 @@
   },
   "components" : {
     "schemas" : {
-      "UserUpdateRequest" : {
+      "UserRequest" : {
+        "required" : [ "bio", "display_name", "email", "password", "username" ],
         "type" : "object",
         "properties" : {
+          "username" : {
+            "maxLength" : 50,
+            "minLength" : 3,
+            "type" : "string"
+          },
           "display_name" : {
             "maxLength" : 100,
             "minLength" : 0,
+            "type" : "string"
+          },
+          "email" : {
             "type" : "string"
           },
           "password" : {
@@ -199,32 +236,51 @@
           },
           "bio" : {
             "type" : "string"
+          }
+        }
+      },
+      "TweetRequest" : {
+        "required" : [ "content", "user_id" ],
+        "type" : "object",
+        "properties" : {
+          "user_id" : {
+            "type" : "string"
+          },
+          "content" : {
+            "maxLength" : 280,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        }
+      },
+      "TweetResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "user_id" : {
+            "type" : "string"
+          },
+          "content" : {
+            "type" : "string"
           },
           "created_at" : {
             "type" : "string",
             "format" : "date-time"
           },
-          "updated_at" : {
-            "type" : "string",
-            "format" : "date-time"
+          "like_count" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
-      "UserRequest" : {
-        "required" : [ "bio", "display_name", "email", "password", "username" ],
+      "UserUpdateRequest" : {
         "type" : "object",
         "properties" : {
-          "username" : {
-            "maxLength" : 50,
-            "minLength" : 3,
-            "type" : "string"
-          },
           "display_name" : {
             "maxLength" : 100,
             "minLength" : 0,
-            "type" : "string"
-          },
-          "email" : {
             "type" : "string"
           },
           "password" : {

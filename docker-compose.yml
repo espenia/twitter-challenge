@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:  
+    twitter-challenge:
+        build:
+            context: .  # Use the current directory as the build context
+            dockerfile: Dockerfile  # Use the existing Dockerfile
+        ports:
+            - "8090:8090"  # Map container port 8090 to host port 8090
+
+        environment:
+            - SCOPE_SUFFIX=prod  # Set the active profile to local
+            - MONGODB_URI=mongodb://mongodb
+            - MONGODB_DATABASE=challenge-twitter
+            - MONGODB_USERNAME=user
+            - MONGODB_PASSWORD=user
+            - MONGODB_PORT=27017
+            - SERVER_PORT=8090
+        restart: unless-stopped
+        container_name: twitter-challenge-app
+        volumes:
+            - ./data:/app/data  # Mount the data directory for persistence if needed
+        depends_on:
+            - mongo-init
+
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongodb_data:/data/db  # Persist MongoDB data
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+            - MONGO_INITDB_DATABASE=challenge-twitter
+        restart: unless-stopped
+        command: mongod --auth
+
+    mongo-init:
+        image: mongo:latest
+        depends_on:
+            - mongodb
+        restart: on-failure
+        command: >
+            bash -c "sleep 10 && mongosh --host mongodb -u root -p rootpassword --authenticationDatabase admin --eval '
+            db = db.getSiblingDB(\"challenge-twitter\");
+            db.createUser({user: \"user\", pwd: \"user\", roles: [{role: \"readWrite\", db: \"challenge-twitter\"}]});
+            '"
+
+volumes:
+  mongodb_data:  # Named volume for MongoDB data persistence
