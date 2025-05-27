@@ -20,6 +20,7 @@ RUN chmod +x ./gradlew
 
 # Build the Spring Boot application inside the container
 RUN ./gradlew build -x test
+RUN ./gradlew test
 
 # Build the Spring Boot application inside the container
 RUN ./gradlew bootJar -x test
