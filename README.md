@@ -151,6 +151,18 @@ el uso de los _end points_ para interactuar con el FrontEnd viene mejor explicad
 
 - **POST /api/tweets**: Crea un nuevo tweet
 
+### Follow
+
+- **POST /api/follows/{followerId}** : Usuario sigue a otro usaurio
+- **DELETE /api/follows/{followerId}/{followedId}** : Usuario deja de seguir a otro usuario.
+- **GET /api/follows/following/{userId}** : Get devuelve usuarios a los que sigue
+- **GET /api/follows/followers/{userId}** : Get devuelve usuarios que los siguen
+
+### Timeline
+
+- **GET /api/timeline/{userId}** : trae los (actualmente harcoded 20 tweets PENDING DEV configurable) tweets del user y de los users que sigue. A su vez genera un cache de este timeline, para llamadas proximas (TTL 5 minutos).
+
+
 La documentación completa de la API está disponible en formato Swagger en `docs/specs/swagger.yaml`.
 
 <hr width="30%" align="left" />
@@ -167,7 +179,7 @@ correspondiente.
 
 # CI/CD
 
-El proyecto utiliza GitHub Actions para integración continua. 
+El proyecto utiliza GitHub Actions para integración continua. (Actualmente hay issues con CI para test integración ya que usa una base de mongo local y esta dando timeouts, esto se soluciona usando una base embedida en memoria. PENDING DEV )
 
 ## Workflow de CI
 
