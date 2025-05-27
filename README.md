@@ -2,10 +2,7 @@
 
 ![Version Badge](https://img.shields.io/badge/0.0.1_SNAPSHOT-green?style=flat&label=Version)
 ![Version Badge](https://img.shields.io/badge/No-red?style=flat&label=Activo)
-![CI](https://github.com/espenia/split-travel-be/actions/workflows/ci.yml/badge.svg)
 
-Repositorio para el BackEnd de la plataforma challange twitter "Challange Twitter Espenia".
-* [Código FrontEnd](https://github.com/moreover22/split-travel-fe)
 
 ## Índice
 
@@ -170,7 +167,7 @@ correspondiente.
 
 # CI/CD
 
-El proyecto utiliza GitHub Actions para integración continua.
+El proyecto utiliza GitHub Actions para integración continua. 
 
 ## Workflow de CI
 
