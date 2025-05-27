@@ -19,6 +19,9 @@ RUN find . -type f -name "*.sh" -o -name "gradlew" | xargs dos2unix
 RUN chmod +x ./gradlew
 
 # Build the Spring Boot application inside the container
+RUN ./gradlew build -x test
+
+# Build the Spring Boot application inside the container
 RUN ./gradlew bootJar -x test
 
 # Verify the JAR file was created and find its location
