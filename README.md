@@ -133,10 +133,6 @@ El servicio principal utiliza las siguientes variables de entorno que pueden ser
 
 # Wiki
 
-Si bien la documentación del [código fuente](./CONTRIBUTING.md#código-fuente) viene incluida en el mismo,
-el uso de los _end points_ para interactuar con el FrontEnd viene mejor explicado en la
-[wiki](https://github.com/espenia/split-travel-be/wiki) del proyecto.
-
 ## API Endpoints
 
 ### Usuarios
